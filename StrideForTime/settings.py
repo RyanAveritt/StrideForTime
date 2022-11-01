@@ -76,9 +76,9 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {  
         'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'stridedb',  
+        'NAME': '',  
         'USER':'Entropy',  
-        'PASSWORD':'rAz)wXm+7TXZF8VK',  
+        'PASSWORD':'',  
         'HOST':'localhost',  
         'PORT':'3306'  
     }  
