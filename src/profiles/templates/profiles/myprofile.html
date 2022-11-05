@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+my profile
+{% endblock title %}
+
+{% block content %}
+<!-- MODAL -->
+<div class="ui modal mymodal">
+  <i class="close icon"></i>
+  <div class="header">
+    Update your Profile
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="{{profile.avatar.url}}">
+    </div>
+    <div class="description">
+      <div class="ui header">Provide update info</div>
+     <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{form.as_p}}
+    </div>
+  </div>
+  <div class="actions">
+    <button type='submit' class="ui positive button">
+      Update
+    </button>
+    </form>
+  </div>
+</div>
+
+{% if confirm %}
+<div class="ui green message">Your profile has been updated</div>
+{% endif %}
+<button class='ui secondary button' id='modal-btn'>Update your profile</button>
+{% comment %} <script src="/static_project/main.js"></script> {% endcomment %}
+{% endblock content %}
