@@ -2,12 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def home_view(request):
+    statement = 'Welcome (still in dev)'
     user = request.user
-    hello = 'Hello world'
 
     context = {
+        'hello' : statement,    
         'user': user,
-        'hello' : hello,
     }
     return render(request, 'main/home.html', context)
     # return HttpResponse('Hello world')

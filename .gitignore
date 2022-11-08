@@ -2,4 +2,5 @@
 /bin
 /lib
 pyvenv.cfg
+.env
 .DS_Store

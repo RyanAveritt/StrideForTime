@@ -7,7 +7,6 @@ from .utils import get_random_code
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=200, blank=False)
-    password = models.CharField(max_length=50) #may be deleted
 
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
