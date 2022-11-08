@@ -8,8 +8,6 @@ class ProfileModelForm(forms.ModelForm):
         model = Profile
         fields = ('first_name', 'last_name', 'location', 'bio', 'avatar')
 
-from django import forms
-
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 
