@@ -23,13 +23,13 @@ from profiles.views import register_request, login_request, logout_request
 app_name = 'main'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', home_view, name='home_view'),
-    path('profiles/', include('profiles.urls', namespace='profiles')),
+    path('admin/', admin.site.urls),
+    path('', include('profiles.urls', namespace='profiles')),
+    path('calendars/', include('calendars.urls', namespace='calendars')),
     path('register', register_request, name='register'),
     path('login', login_request, name='login'),
-    path('logout', logout_request, name='logout')
-    # path('calendar/', include('calendars.urls', namespace='calendars')),
+    path('logout', logout_request, name='logout'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -20,6 +20,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}-{self.created.strftime('%d-%m-%Y')}"
+    
+    def get_email(self):
+        return f"{self.user.email}"
 
     def get_friends(self):
         return self.friends.all()
@@ -29,6 +32,12 @@ class Profile(models.Model):
 
     def fullName(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+    def get_calendars_no(self):
+        return self.calendars.all().count()
+
+    def get_calendars(self):
+        return self.calendars.all()
 
     def save(self, *args, **kwargs):
         ex = False
@@ -43,15 +52,15 @@ class Profile(models.Model):
         self.slug = to_slug
         super().save(*args, **kwargs)
 
-STATUS_CHOICES = (
-    ('send', 'send'),
-    ('accepted', 'accepted')
-)
-
 class Relationship(models.Model):
+    class StatusType(models.TextChoices):
+        SENT = "sent"
+        ACCEPTED = "accepted"
+        # DECLINED = "declined"
+
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
-    status = models.CharField(max_length=8, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=8, choices=StatusType.choices)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
