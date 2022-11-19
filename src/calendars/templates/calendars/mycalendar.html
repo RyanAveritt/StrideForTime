@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for event in calendar%}
+    <p>{{event.listCalendar}}</p>
+{% endfor %}
+
+
+{% endblock content %}
