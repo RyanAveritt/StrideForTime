@@ -4,7 +4,7 @@ pip install django
 pip install mysqlclient
 pip install Pillow
 pip install django-crispy-forms
-pip install environ
+pip install django-environ
 
 MySQL - create database stridedb, change settings
  - create database stridedb

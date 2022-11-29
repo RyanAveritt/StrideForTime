@@ -52,6 +52,11 @@ class Profile(models.Model):
         self.slug = to_slug
         super().save(*args, **kwargs)
 
+class RelationshipManager(models.Manager):
+    def invatations_received(self, receiver):
+        qs = Relationship.objects.filter(receiver=receiver, status='send')
+        return qs
+
 class Relationship(models.Model):
     class StatusType(models.TextChoices):
         SENT = "sent"
@@ -63,6 +68,8 @@ class Relationship(models.Model):
     status = models.CharField(max_length=8, choices=StatusType.choices)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    objects = RelationshipManager()
 
     def __str__(self):
         return f"{self.sender}-{self.receiver}-{self.status}"
