@@ -5,7 +5,13 @@ my invites
 {% endblock title %}
 
 {% block content %}
-
+<ul>
+    {%for item in qs%}
+        <li>{{item}}</li>
+    {%endfor%}
+</ul>
+{% endblock content %}
+{% comment %} 
     {% if is_empty %}
         <h1>No invatations here..</h1>
     {% endif %}
@@ -47,4 +53,4 @@ my invites
         </div>
     {% endfor %}
 
-{% endblock content %}
+{% endblock content %} {% endcomment %}

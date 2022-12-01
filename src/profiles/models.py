@@ -1,9 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.db.models import Q
 from .utils import get_random_code
 
 # Create your models here.
+class ProfileManager(models.Manager):
+    def get_all_profiles_to_invite(self, sender):
+        profiles = Profile.objects.all().exclude(user=sender)
+        profile = Profile.objects.get(user=sender)
+        qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        print(qs)
+        print("#########")
+
+        accepted = set([])
+        for rel in qs:
+            if rel.status == 'accepted':
+                accepted.add(rel.receiver)
+                accepted.add(rel.sender)
+        print(accepted)
+        print("#########")
+
+        available = [profile for profile in profiles if profile not in accepted]
+        print(available)
+        print("#########")
+        return available
+        
+    def get_all_profiles(self, me):
+        profiles = Profile.objects.all().exclude(user=me)
+        return profiles
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=200, blank=False)
@@ -17,6 +43,8 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, blank=True)
+
+    objects = ProfileManager()
 
     def __str__(self):
         return f"{self.user.username}-{self.created.strftime('%d-%m-%Y')}"
@@ -54,7 +82,7 @@ class Profile(models.Model):
 
 class RelationshipManager(models.Manager):
     def invatations_received(self, receiver):
-        qs = Relationship.objects.filter(receiver=receiver, status='send')
+        qs = Relationship.objects.filter(receiver=receiver, status='sent')
         return qs
 
 class Relationship(models.Model):
