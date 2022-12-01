@@ -5,13 +5,6 @@ my invites
 {% endblock title %}
 
 {% block content %}
-<ul>
-    {%for item in qs%}
-        <li>{{item}}</li>
-    {%endfor%}
-</ul>
-{% endblock content %}
-{% comment %} 
     {% if is_empty %}
         <h1>No invatations here..</h1>
     {% endif %}
@@ -25,6 +18,9 @@ my invites
                     </div>
                     <div class="thirteen wide column">
                         <h3>{{obj.user}}</h3>
+                        {% if obj.location %}
+                            <p>{{obj.location}}</p>
+                        {% endif %}
                         <p>{{obj.bio}}</h3>
                         <br>
                         <a href="">
@@ -38,7 +34,7 @@ my invites
                                 Accept invite
                             </button>
                         </form>
-                         <form action="{% url 'profiles:reject-invite' %}" method="POST">
+                        <form action="{% url 'profiles:reject-invite' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
                             <button type="submit" class="ui negative basic button w-big mb-5">
@@ -47,10 +43,9 @@ my invites
                             </button>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
     {% endfor %}
 
-{% endblock content %} {% endcomment %}
+{% endblock content %}

@@ -42,6 +42,11 @@ all profiles
                             <button class="ui disabled button mb-5 w-big"><i class="user icon"></i>Pending approval</button>
                         {% endif %}
 
+                        {% comment %} awaiting profile's response {% endcomment %}
+                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                            <button class="ui disabled button mb-5 w-big"><i class="user icon"></i>Awaiting your approval</button>
+                        {% endif %}
+
                         {% comment %} remove {% endcomment %}
                         {% if request.user in obj.friends.all %}
                         <form action="{% url 'profiles:remove-friend' %}" method="POST">
