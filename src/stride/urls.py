@@ -25,7 +25,7 @@ app_name = 'main'
 urlpatterns = [
     path('', home_view, name='home_view'),
     path('admin/', admin.site.urls),
-    path('', include('profiles.urls', namespace='profiles')),
+    path('profiles/', include('profiles.urls', namespace='profiles')),
     path('calendars/', include('calendars.urls', namespace='calendars')),
     path('register', register_request, name='register'),
     path('login', login_request, name='login'),
