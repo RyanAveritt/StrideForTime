@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'calendars'
 ]
 
+# LOGIN_URL = '/admin/'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'profiles.context_processors.profile_pic',
+                'profiles.context_processors.invatations_received_no'
             ],
         },
     },
@@ -143,11 +147,11 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
-ALLOWED_HOSTS = [
-    '.ngrok.io',
-    '127.0.0.1'
-]
+# ALLOWED_HOSTS = [
+#     '.ngrok.io',
+#     '127.0.0.1'
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.ngrok.io'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://*.ngrok.io'
+# ]

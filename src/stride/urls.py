@@ -23,7 +23,7 @@ from profiles.views import register_request, login_request, logout_request
 app_name = 'main'
 
 urlpatterns = [
-    path('', home_view, name='home_view'),
+    path('', home_view, name='home-view'),
     path('admin/', admin.site.urls),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('calendars/', include('calendars.urls', namespace='calendars')),

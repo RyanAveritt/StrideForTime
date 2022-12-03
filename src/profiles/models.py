@@ -11,18 +11,28 @@ class ProfileManager(models.Manager):
         profiles = Profile.objects.all().exclude(user=sender)
         profile = Profile.objects.get(user=sender)
         qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
-        print(qs)
 
         accepted = set([])
         for rel in qs:
             if rel.status == 'accepted':
                 accepted.add(rel.receiver)
                 accepted.add(rel.sender)
-        print(accepted)
 
         available = [profile for profile in profiles if profile not in accepted]
-        print(available)
         return available
+
+    def get_all_profiles_invited(self, sender):
+        profiles = Profile.objects.all().exclude(user=sender)
+        profile = Profile.objects.get(user=sender)
+        qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
+
+        sent = set([])
+        for rel in qs:
+            if rel.status == 'sent':
+                sent.add(rel.receiver)
+
+        sent = [profile for profile in profiles if profile in sent]
+        return sent
         
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)
@@ -30,7 +40,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=200, blank=False)
+    email = models.EmailField(max_length=200)
 
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
@@ -89,6 +99,10 @@ class Profile(models.Model):
             else:
                 to_slug = str(self.user)
         self.slug = to_slug
+
+        #saves the email to the profile
+        if(self.email == ""):
+             self.email = self.user.email
         super().save(*args, **kwargs)
 
 class RelationshipManager(models.Manager):

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+invited
+{% endblock title %}
+
+{% block content %}
+    {% if is_empty %}
+        <h1>You have no ongoing invites</h1>
+    {% endif %}
+ 
+    {% for obj in qs %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img class="ui small circular image" src={{obj.avatar.url}}>
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{obj.user}}</h3>
+                        {% if obj.location %}
+                            <p>{{obj.location}}</p>
+                        {% endif %}
+                        <p>{{obj.bio}}</h3>
+                        <br>
+                        <a href="">
+                            <button class="ui primary button w-big mb-5">See profile</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
