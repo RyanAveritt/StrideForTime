@@ -35,7 +35,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
 	template_name = 'profiles/profile_list.html'
 		
 	def get_queryset(self):
-		qs = Profile.objects.get_all_profiles(self.request.user)
+		qs = Profile.objects.get_all_profiles_accepted(self.request.user)
 		return qs
 
 	def get_context_data(self, **kwargs):
@@ -76,9 +76,37 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 		context['len_calendars'] = True if self.get_object().get_calendars_no() > 0 else False
 		return context
 
+class SearchView(LoginRequiredMixin, ListView):
+	model = Profile
+	template_name = 'profiles/search_results.html'
+		
+	def get_queryset(self):
+		if self.request.method=="GET":
+			query = self.request.GET.get("q")
+			object_list = Profile.objects.filter(
+				Q(slug__icontains=query)
+			)	
+			print(object_list)
+			return object_list
+		return redirect('home-view')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		user = User.objects.get(username__iexact=self.request.user)
+		profile = Profile.objects.get(user=user)
+		rel_r = Relationship.objects.filter(sender=profile)
+		rel_s = Relationship.objects.filter(receiver=profile)
+		rel_receiver = [(item.receiver.user) for item in rel_r]
+		rel_sender = [(item.sender.user) for item in rel_s]
+		context["rel_receiver"] = rel_receiver
+		context["rel_sender"] = rel_sender
+		context['is_empty'] = False
+		if len(self.get_queryset()) == 0:
+			context['is_empty'] = True
+		return context
+
 @login_required
 def sent_invites_view(request):
-	#invite_profiles_list_view
 	user = request.user
 	qs = Profile.objects.get_all_profiles_invited(user)
 
