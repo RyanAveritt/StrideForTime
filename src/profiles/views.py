@@ -86,7 +86,6 @@ class SearchView(LoginRequiredMixin, ListView):
 			object_list = Profile.objects.filter(
 				Q(slug__icontains=query)
 			)	
-			print(object_list)
 			return object_list
 		return redirect('home-view')
 
@@ -107,37 +106,33 @@ class SearchView(LoginRequiredMixin, ListView):
 
 @login_required
 def sent_invites_view(request):
-	user = request.user
-	qs = Profile.objects.get_all_profiles_invited(user)
+	if request.method=='GET':
+		print(request.method)
+		user = request.user
+		qs = Profile.objects.get_all_profiles_invited(user)
 
-	context = {'qs': qs}
+		context = {'qs': qs}
 
-	return render(request, 'profiles/invited_list.html', context)
-
-@login_required
-def profiles_list_view(request):
-	user = request.user
-	qs = Profile.objects.get_all_profiles(user)
-
-	context = {'qs': qs}
-
-	return render(request, 'profiles/profile_list.html', context)
+		return render(request, 'profiles/invited_list.html', context)
+	return redirect('home-view')
 
 @login_required
 def invites_received_view(request):
-	profile = Profile.objects.get(user=request.user)
-	qs = Relationship.objects.invatations_received(profile)
-	results = list(map(lambda x: x.sender, qs))
-	is_empty = False
-	if len(results) == 0:
-		is_empty = True
+	if request.method=='GET':
+		profile = Profile.objects.get(user=request.user)
+		qs = Relationship.objects.invatations_received(profile)
+		results = list(map(lambda x: x.sender, qs))
+		is_empty = False
+		if len(results) == 0:
+			is_empty = True
 
-	context = {
-		'qs': results,
-		'is_empty': is_empty,
-	}
+		context = {
+			'qs': results,
+			'is_empty': is_empty,
+		}
 
-	return render(request, 'profiles/my_invites.html', context)
+		return render(request, 'profiles/my_invites.html', context)
+	return redirect('home-view')
 	
 @login_required
 def send_invatation(request):
