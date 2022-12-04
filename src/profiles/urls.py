@@ -2,7 +2,6 @@ from django.urls import path
 from .views import (
     my_profile_view, 
     invites_received_view, 
-    profiles_list_view, 
     sent_invites_view, 
     ProfileDetailView,
     ProfileListView,
