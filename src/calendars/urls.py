@@ -4,5 +4,5 @@ from .views import my_calendar_view
 app_name = 'calendars'
 
 urlpatterns = [
-    path('', my_calendar_view, name='my-calendar-view'),
+    path('', my_calendar_view, name='main-calendar-view'),
 ]

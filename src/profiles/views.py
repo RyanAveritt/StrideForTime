@@ -7,8 +7,12 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.models import User 
 from django.db.models import Q 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
+@login_required
 def my_profile_view(request):
 	profile = Profile.objects.get(user=request.user)
 	form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
@@ -26,12 +30,12 @@ def my_profile_view(request):
 	}
 	return render(request, 'profiles/myprofile.html', context)
 
-class ProfileListView(ListView):
+class ProfileListView(LoginRequiredMixin, ListView):
 	model = Profile
 	template_name = 'profiles/profile_list.html'
 		
 	def get_queryset(self):
-		qs = Profile.objects.get_all_profiles(self.request.user)
+		qs = Profile.objects.get_all_profiles_accepted(self.request.user)
 		return qs
 
 	def get_context_data(self, **kwargs):
@@ -49,7 +53,7 @@ class ProfileListView(ListView):
 			context['is_empty'] = True
 		return context
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin, DetailView):
 	model = Profile
 	template_name = 'profiles/detail.html'
 
@@ -72,14 +76,45 @@ class ProfileDetailView(DetailView):
 		context['len_calendars'] = True if self.get_object().get_calendars_no() > 0 else False
 		return context
 
-def invite_profiles_list_view(request):
+class SearchView(LoginRequiredMixin, ListView):
+	model = Profile
+	template_name = 'profiles/search_results.html'
+		
+	def get_queryset(self):
+		if self.request.method=="GET":
+			query = self.request.GET.get("q")
+			object_list = Profile.objects.filter(
+				Q(slug__icontains=query)
+			)	
+			print(object_list)
+			return object_list
+		return redirect('home-view')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		user = User.objects.get(username__iexact=self.request.user)
+		profile = Profile.objects.get(user=user)
+		rel_r = Relationship.objects.filter(sender=profile)
+		rel_s = Relationship.objects.filter(receiver=profile)
+		rel_receiver = [(item.receiver.user) for item in rel_r]
+		rel_sender = [(item.sender.user) for item in rel_s]
+		context["rel_receiver"] = rel_receiver
+		context["rel_sender"] = rel_sender
+		context['is_empty'] = False
+		if len(self.get_queryset()) == 0:
+			context['is_empty'] = True
+		return context
+
+@login_required
+def sent_invites_view(request):
 	user = request.user
-	qs = Profile.objects.get_all_profiles_to_invite(user)
+	qs = Profile.objects.get_all_profiles_invited(user)
 
 	context = {'qs': qs}
 
-	return render(request, 'profiles/to_invite_list.html', context)
+	return render(request, 'profiles/invited_list.html', context)
 
+@login_required
 def profiles_list_view(request):
 	user = request.user
 	qs = Profile.objects.get_all_profiles(user)
@@ -88,6 +123,7 @@ def profiles_list_view(request):
 
 	return render(request, 'profiles/profile_list.html', context)
 
+@login_required
 def invites_received_view(request):
 	profile = Profile.objects.get(user=request.user)
 	qs = Relationship.objects.invatations_received(profile)
@@ -103,8 +139,8 @@ def invites_received_view(request):
 
 	return render(request, 'profiles/my_invites.html', context)
 	
+@login_required
 def send_invatation(request):
-	print("test")
 	if request.method=='POST':
 		pk = request.POST.get('profile_pk')
 		user = request.user
@@ -116,6 +152,7 @@ def send_invatation(request):
 		return redirect(request.META.get('HTTP_REFERER'))
 	return redirect('profiles:my-profile-view')
 
+@login_required
 def accept_invatation(request):
 	if request.method=="POST":
 		pk = request.POST.get('profile_pk')
@@ -127,6 +164,7 @@ def accept_invatation(request):
 			rel.save()
 	return redirect('profiles:my-invites-view')
 
+@login_required
 def reject_invatation(request):
 	if request.method=="POST":
 		pk = request.POST.get('profile_pk')
@@ -136,6 +174,7 @@ def reject_invatation(request):
 		rel.delete()
 	return redirect('profiles:my-invites-view')
 
+@login_required
 def remove_from_friends(request):
 	if request.method=='POST':
 		pk = request.POST.get('profile_pk')
@@ -180,6 +219,7 @@ def login_request(request):
 	form = AuthenticationForm()
 	return render(request=request, template_name="main/login.html", context={"login_form":form})
 
+@login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "You have successfully logged out.") 
