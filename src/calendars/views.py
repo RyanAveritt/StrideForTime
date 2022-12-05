@@ -13,9 +13,9 @@ def my_calendar_view(request):
     calendar = Calendar.objects.filter(attendee=Profile.objects.get(user=request.user))
     event_list = []
     for event in calendar:
-        title = event.getEventTitle()
-        start = event.getEventStart()
-        end = event.getEventEnd()
+        title = event.volunteer_type
+        start = event.start_time
+        end = event.end_time
         if end:
             event_dict = {'title':title, 'start':start, 'end':end}
         else:

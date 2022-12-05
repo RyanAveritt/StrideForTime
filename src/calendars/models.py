@@ -26,12 +26,7 @@ class Calendar(models.Model):
 
     def listCalendar(self):
         return f"{self.volunteer_type}_{self.location}_{duration(self,)}"
-    def getEventTitle(self):
-        return f'{self.volunteer_type}'
-    def getEventStart(self):
-        return f'{self.start_time}'
-    def getEventEnd(self):
-        return f'{self.end_time}'
+
 
 
 def duration(self, interval = "default"):
