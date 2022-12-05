@@ -83,9 +83,10 @@ class SearchView(LoginRequiredMixin, ListView):
 	def get_queryset(self):
 		if self.request.method=="GET":
 			query = self.request.GET.get("q")
+			user = User.objects.get(username__iexact=self.request.user)
 			object_list = Profile.objects.filter(
 				Q(slug__icontains=query)
-			)	
+			).exclude(user=user)
 			return object_list
 		return redirect('home-view')
 
@@ -107,7 +108,6 @@ class SearchView(LoginRequiredMixin, ListView):
 @login_required
 def sent_invites_view(request):
 	if request.method=='GET':
-		print(request.method)
 		user = request.user
 		qs = Profile.objects.get_all_profiles_invited(user)
 

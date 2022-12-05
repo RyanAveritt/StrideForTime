@@ -12,7 +12,7 @@ class Calendar(models.Model):
 
     volunteer_type = models.CharField(max_length=5, choices=VolTypes.choices, blank=False)
     start_time = models.DateTimeField(blank=False)
-    end_time = models.DateTimeField( blank=False)
+    end_time = models.DateTimeField(blank=False)
     #may want a sub model for location
     location = models.TextField(max_length=200, blank=False)
     created = models.DateTimeField(auto_now_add=True)

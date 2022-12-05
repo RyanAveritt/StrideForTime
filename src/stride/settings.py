@@ -31,7 +31,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,8 +42,6 @@ INSTALLED_APPS = [
     'profiles',
     'calendars'
 ]
-
-# LOGIN_URL = '/admin/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,8 +73,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'stride.wsgi.application'
 
+WSGI_APPLICATION = 'stride.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -91,14 +88,6 @@ DATABASES = {
         'PORT':'3306'  
     }  
 }
-
-#backup, delete for production
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -147,11 +136,11 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
-# ALLOWED_HOSTS = [
-#     '.ngrok.io',
-#     '127.0.0.1'
-# ]
+ALLOWED_HOSTS = [
+    '.ngrok.io',
+    '127.0.0.1'
+]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://*.ngrok.io'
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok.io'
+]

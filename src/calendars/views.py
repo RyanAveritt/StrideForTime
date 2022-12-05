@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Calendar
+from .forms import CalendarModelForm
 from profiles.models import Profile
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.http import require_POST
+
 from django.http import HttpResponse
+from datetime import datetime
 from django.template import loader
 import json
 
@@ -27,3 +30,37 @@ def my_calendar_view(request):
     }
 
     return render(request, 'calendars/mycalendar.html', context)
+
+@login_required
+def add_event_view(request):
+    #deal with form here
+    confirm = False
+    form = CalendarModelForm()
+    if request.method == 'POST':
+        profile = Profile.objects.get(user=request.user)
+        form = CalendarModelForm(request.POST or None)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.attendee = profile
+            form.save()
+            form = CalendarModelForm()
+            confirm = True
+        
+    context = {
+        'example_time': datetime.now().strftime("%Y-%m-%d %H:%M"),
+        'form': form,
+        'confirm': confirm
+    }
+    
+    return render(request, 'calendars/event.html', context)
+
+@login_required
+def my_statistics_view(request):
+    if request.method=='GET':
+    #deal with stats here
+        context = {
+            'mean': "sample",
+            'length': "sample",
+        }
+        return render(request, 'calendars/statistics.html', context)
+    return redirect('home-view')

@@ -1,5 +1,7 @@
 {% url 'home-view' as path_to_home %}
 {% url 'calendars:main-calendar-view' as path_to_calendars %}
+{% url 'calendars:add-event-view' as path_to_event_form %}
+{% url 'calendars:statistics-view' as path_to_statistics %}
 {% url 'profiles:my-profile-view' as path_to_my_profile %}
 {% url 'profiles:my-invites-view' as path_to_my_invites %}
 {% url 'profiles:invited-profiles-view' as path_to_invited %}
@@ -15,6 +17,15 @@
         <a href="{{path_to_calendars}}" class="{% if request.path == path_to_calendars %}active{% endif %} item">
             Calendars
         </a>
+
+        <a href="{{path_to_event_form}}" class="{% if request.path == path_to_event_form %}active{% endif %} item">
+            Event
+        </a>
+
+        <a href="{{path_to_statistics}}" class="{% if request.path == path_to_statistics %}active{% endif %} item">
+            Statisitics
+        </a>
+
         {% endif %}
 
         <div class="right menu">

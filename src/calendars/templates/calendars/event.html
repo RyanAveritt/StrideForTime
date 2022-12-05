@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+event
+{% endblock title %}
+
+{% block content %}
+<div class="five wide column">
+  <div class="ui segment">
+    {% if confirm %}
+      <div class="ui green message">Event has been added</div>
+    {% endif %}
+        <form action="" method="POST" class='ui form' enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form}}
+          <button type='submit' name="submit_event_form" class="ui positive button w-full mt-5">Add</button>
+      </form>
+      <h3>*Date/Time: Y/M/D H:M. Ex. {{example_time}}</h3>
+  </div>
+</div>
+{% endblock content %}

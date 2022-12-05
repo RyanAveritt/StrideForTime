@@ -7,9 +7,6 @@ from django.contrib.auth.decorators import login_required
 def home_view(request):
     statement = 'Welcome'
     user = request.user
-    #calc stats here, make a new tab, or on calendar tab; needs to check for login
-    # profile = Profile.objects.get(user=user)
-    # user = User.objects.get(username=user)
 
     context = {
         'hello' : statement,    
