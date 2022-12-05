@@ -13,7 +13,7 @@ def my_calendar_view(request):
     calendar = Calendar.objects.filter(attendee=Profile.objects.get(user=request.user))
     event_list = []
     for event in calendar:
-        title = event.volunteer_type
+        title = event.location
         start = event.start_time
         end = event.end_time
         if end:
