@@ -27,3 +27,20 @@ def my_calendar_view(request):
     }
 
     return render(request, 'calendars/mycalendar.html', context)
+
+@login_required
+def add_event_view(request):
+    #deal with form here, ref profile my_profile_view
+    context = {
+        'event': "sample",
+    }
+    return render(request, 'calendars/event.html', context)
+
+@login_required
+def my_statistics_view(request):
+    #deal with stats here
+    context = {
+        'mean': "sample",
+        'length': "sample",
+    }
+    return render(request, 'calendars/statistics.html', context)
