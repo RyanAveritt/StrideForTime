@@ -22,7 +22,7 @@ class AccountTestCase(TestCase):
             location=f'Alachua Habitat for Humanity',
             volunteer_type=f'build',
         )
-        self.assertEqual(str(entry1.duration()), "2:00:00")
+        self.assertEqual(str(entry1.start_time), "2022-10-02 11:11:51")
 
         entry2 = Calendar(
             start_time=datetime.datetime(2022, 10, 2, 11, 11, 51),
@@ -30,7 +30,7 @@ class AccountTestCase(TestCase):
             location=f'Alachua Habitat for Humanity',
             volunteer_type=f'build',
         )
-        self.assertEqual(str(entry2.duration()), "2 days, 0:00:00")
+        self.assertEqual(str(entry2.end_time), "2022-10-04 11:11:51")
 
     def test_type(self):
         entry = Calendar(

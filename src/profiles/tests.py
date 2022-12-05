@@ -3,7 +3,7 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.test import RequestFactory, TestCase, Client
 from django.urls import reverse
 
-from .models import Profile
+from .models import Profile, Relationship
 from .views import my_profile_view, register_request, login_request
 from .forms import ProfileModelForm, NewUserForm
 
@@ -40,6 +40,24 @@ class AccountTestCase(TestCase):
     def testing_invalid_url(self):
         response = self.client.get('http://127.0.0.1:8000/invalid')
         self.assertNotEquals(response.status_code, 200)
+
+    def testing_friends_render_test_not_found(self):
+        response = self.client.get('http://127.0.0.1:8000/profiles/')
+        self.assertNotEqual(response.status_code, 404)
+        response = self.client.get('http://127.0.0.1:8000/profiles/invited/')
+        self.assertNotEqual(response.status_code, 404)
+        response = self.client.get('http://127.0.0.1:8000/profiles/my-invites/')
+        self.assertNotEqual(response.status_code, 404)
+    
+    def testing_relationships(self):
+        c = Client()
+        prf1 = Profile(email='test@me.com', first_name="John", last_name="Doe")
+        self.assertEqual(prf1.fullName(), 'John Doe')
+        prf2 = Profile(email='tester@me.com', first_name="Doe", last_name="John")
+        self.assertEqual(prf2.fullName(), 'Doe John')
+        rel = Relationship(sender=prf1, receiver=prf2, status = 'accepted')
+        self.assertEqual(rel.status, 'accepted')
+
 
 
 
