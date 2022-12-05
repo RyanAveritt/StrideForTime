@@ -12,6 +12,12 @@ searched profile
                 <div class="four wide column">
                     <img class="ui medium rounded image" src={{object.avatar.url}}>
                     <h1>{{object.user}}</h1>
+                    {% if object.location %}
+                        <p>{{object.location}}</p>
+                    {% else %}
+                        <p>no location set</p>
+                    {% endif %}
+                    <p>{{object.bio}}</h3>
                     <div class="ui vertical fluid menu">
                         <div class="item">
                             Calendars

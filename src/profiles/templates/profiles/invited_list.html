@@ -6,7 +6,7 @@ invited
 
 {% block content %}
     {% if is_empty %}
-        <h1>You have no ongoing invites</h1>
+        <h1>You have no outgoing invites</h1>
     {% endif %}
  
     {% for obj in qs %}
@@ -20,10 +20,12 @@ invited
                         <h3>{{obj.user}}</h3>
                         {% if obj.location %}
                             <p>{{obj.location}}</p>
+                        {% else %}
+                            <p>no location set</p>
                         {% endif %}
                         <p>{{obj.bio}}</h3>
                         <br>
-                        <a href="">
+                        <a href={{obj.get_absolute_url}}>
                             <button class="ui primary button w-big mb-5">See profile</button>
                         </a>
                     </div>

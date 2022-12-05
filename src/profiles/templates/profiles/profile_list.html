@@ -24,28 +24,11 @@ all profiles
                         <p>{{obj.bio}}</p>
                         {% if obj.location %}
                             <p>{{obj.location}}</p>
+                        {% else %}
+                            <p>no location set</p>
                         {% endif %}
                         <a href={{obj.get_absolute_url}}><button class="ui primary button mb-5 w-big">See profile</button></a>
                         <br>
-
-                        {% comment %} invite {% endcomment %}
-                        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
-                            <form action="{% url 'profiles:send-invite' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                <button type="submit" class="ui positive basic button mb-5 w-big"><i class="plus square icon"></i>Add to friends</button>
-                            </form>
-                         {% endif %}
-
-                        {% comment %} pending {% endcomment %}
-                        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                            <button class="ui disabled button mb-5 w-big"><i class="user icon"></i>Pending approval</button>
-                        {% endif %}
-
-                        {% comment %} awaiting profile's response {% endcomment %}
-                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
-                            <button class="ui disabled button mb-5 w-big"><i class="user icon"></i>Awaiting your approval</button>
-                        {% endif %}
 
                         {% comment %} remove {% endcomment %}
                         {% if request.user in obj.friends.all %}
