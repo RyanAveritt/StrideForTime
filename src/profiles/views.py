@@ -108,7 +108,6 @@ class SearchView(LoginRequiredMixin, ListView):
 @login_required
 def sent_invites_view(request):
 	if request.method=='GET':
-		print(request.method)
 		user = request.user
 		qs = Profile.objects.get_all_profiles_invited(user)
 
