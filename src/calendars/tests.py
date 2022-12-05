@@ -49,4 +49,3 @@ class AccountTestCase(TestCase):
             volunteer_type=f'build',
         )
         self.assertEqual(entry.location, "Alachua Habitat for Humanity")
-

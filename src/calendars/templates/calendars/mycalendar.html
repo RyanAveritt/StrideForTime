@@ -1,10 +1,38 @@
 {% extends 'base.html' %}
-
+{% block header %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" integrity="sha384-39yVKLsD9lMelmY+ij49KZgE+Mfk6hjdUPNE8yKHqdMPceLXzhlCJAK81xlD5jDj" crossorigin="anonymous">
+{% endblock header %}
 {% block content %}
 
-{% for event in calendar%}
-    <p>{{event.listCalendar}}</p>
-{% endfor %}
+<div id="calendar"></div>
 
 
 {% endblock content %}
+
+{% load static %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.js" integrity="sha384-FCl9jo/fomd8qtIH8LhQG3qApsOdKV/yS4WmgkfHtLoPNRiMhDg/0m0Bh3dzxP+3" crossorigin="anonymous"></script>
+
+
+{{ fullcalendar|json_script:"fullcal" }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendar_events = JSON.parse(document.getElementById('fullcal').textContent);
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: '2022-12-07',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: calendar_events
+      });
+  
+      calendar.render();
+    });
+  
+  </script>
+{% endblock scripts %}

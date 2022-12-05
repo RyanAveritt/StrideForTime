@@ -27,6 +27,8 @@ class Calendar(models.Model):
     def listCalendar(self):
         return f"{self.volunteer_type}_{self.location}_{duration(self,)}"
 
+
+
 def duration(self, interval = "default"):
     duration = self.end_time - self.start_time # For build-in functions
     duration_in_s = duration.total_seconds() 
