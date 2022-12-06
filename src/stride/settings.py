@@ -137,6 +137,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
-    'http://ec2-44-201-189-204.compute-1.amazonaws.com:8080/'
+    "*"
 ]
