@@ -137,10 +137,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
 ALLOWED_HOSTS = [
-    '.ngrok.io',
     '127.0.0.1'
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.ngrok.io'
+    'http://ec2-44-201-189-204.compute-1.amazonaws.com:8080/'
 ]
