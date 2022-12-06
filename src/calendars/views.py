@@ -59,11 +59,13 @@ def my_statistics_view(request):
     if request.method=='GET':
     #deal with stats here
         profile = Profile.objects.get(user=request.user)
-        calendars = Calendar.objects.filter(attendee=Profile.objects.get(user=request.user))
+        calendars = Calendar.objects.filter(attendee=profile)
         
         context = {
             'total': len(calendars),
+            'build': len(calendars.filter(volunteer_type='build')),
             'food': len(calendars.filter(volunteer_type='food')),
+            'clean': len(calendars.filter(volunteer_type='clean')),
         }
         return render(request, 'calendars/statistics.html', context)
     return redirect('home-view')
