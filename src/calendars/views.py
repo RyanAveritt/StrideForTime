@@ -58,9 +58,12 @@ def add_event_view(request):
 def my_statistics_view(request):
     if request.method=='GET':
     #deal with stats here
+        profile = Profile.objects.get(user=request.user)
+        calendars = Calendar.objects.filter(attendee=Profile.objects.get(user=request.user))
+        
         context = {
-            'mean': "sample",
-            'length': "sample",
+            'total': len(calendars),
+            'food': len(calendars.filter(volunteer_type='food')),
         }
         return render(request, 'calendars/statistics.html', context)
     return redirect('home-view')

@@ -3,3 +3,23 @@
 {% block title %}
 statistics
 {% endblock title %}
+
+{% block content %}
+
+<div class="ui grid">
+    <br>
+    <div class="row">
+        <div class="ui vertical fluid menu">
+            <div class="item">
+                Total
+                <div class="ui label">{{ total }}</div>
+            </div>
+            <div class="item">
+                Type: Food
+                <div class="ui label">{{ food }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
