@@ -3,3 +3,39 @@
 {% block title %}
 statistics
 {% endblock title %}
+
+{% block content %}
+
+<div class="ui grid">
+    <br>
+    <div class="row">
+        <div class="ui vertical fluid menu">
+            <div class="item">
+                Total
+                <div class="ui label">{{ all_total }}</div>
+            </div>
+            <div class="item">
+                Total: Build
+                <div class="ui label">{{ build_total }}</div>
+            </div>
+            <div class="item">
+                Total: Food
+                <div class="ui label">{{ food_total }}</div>
+            </div>
+            <div class="item">
+                Total: Clean
+                <div class="ui label">{{ clean_total }}</div>
+            </div>
+            <div class="item">
+                Month: Average
+                <div class="ui label">{{ months_mean }}</div>
+            </div>
+            <div class="item">
+                Month: Mode
+                <div class="ui label">{{ months_mode }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

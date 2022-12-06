@@ -27,43 +27,41 @@ class Calendar(models.Model):
     def listCalendar(self):
         return f"{self.volunteer_type}_{self.location}_{duration(self,)}"
 
+    def duration(self, interval = "default"):
+      duration = self.end_time - self.start_time # For build-in functions
+      duration_in_s = duration.total_seconds() 
+      
+      def years():
+        return divmod(duration_in_s, 31536000) # Seconds in a year=31536000.
 
+      def days(seconds = None):
+        return divmod(seconds if seconds != None else duration_in_s, 86400) # Seconds in a day = 86400
 
-def duration(self, interval = "default"):
-    duration = self.end_time - self.start_time # For build-in functions
-    duration_in_s = duration.total_seconds() 
-    
-    def years():
-      return divmod(duration_in_s, 31536000) # Seconds in a year=31536000.
+      def hours(seconds = None):
+        return divmod(seconds if seconds != None else duration_in_s, 3600) # Seconds in an hour = 3600
 
-    def days(seconds = None):
-      return divmod(seconds if seconds != None else duration_in_s, 86400) # Seconds in a day = 86400
+      def minutes(seconds = None):
+        return divmod(seconds if seconds != None else duration_in_s, 60) # Seconds in a minute = 60
 
-    def hours(seconds = None):
-      return divmod(seconds if seconds != None else duration_in_s, 3600) # Seconds in an hour = 3600
+      def seconds(seconds = None):
+        if seconds != None:
+          return divmod(seconds, 1)   
+        return duration_in_s
 
-    def minutes(seconds = None):
-      return divmod(seconds if seconds != None else duration_in_s, 60) # Seconds in a minute = 60
+      def totalDuration():
+          y = years()
+          d = days(y[1]) # Use remainder to calculate next variable
+          h = hours(d[1])
+          m = minutes(h[1])
+          s = seconds(m[1])
 
-    def seconds(seconds = None):
-      if seconds != None:
-        return divmod(seconds, 1)   
-      return duration_in_s
+          return "Duration: {} days, {} hours, {} minutes and {} seconds".format(int(d[0]), int(h[0]), int(m[0]), int(s[0]))
 
-    def totalDuration():
-        y = years()
-        d = days(y[1]) # Use remainder to calculate next variable
-        h = hours(d[1])
-        m = minutes(h[1])
-        s = seconds(m[1])
-
-        return "Duration: {} days, {} hours, {} minutes and {} seconds".format(int(d[0]), int(h[0]), int(m[0]), int(s[0]))
-
-    return {
-        'years': int(years()[0]),
-        'days': int(days()[0]),
-        'hours': int(hours()[0]),
-        'minutes': int(minutes()[0]),
-        'seconds': int(seconds()),
-        'default': totalDuration()
-    }[interval]
+      return {
+          'years': int(years()[0]),
+          'days': int(days()[0]),
+          'hours': int(hours()[0]),
+          'minutes': int(minutes()[0]),
+          'seconds': int(seconds()),
+          'default': totalDuration()
+      }[interval]

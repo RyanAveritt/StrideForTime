@@ -4,6 +4,7 @@ from .forms import CalendarModelForm
 from profiles.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from statistics import mode, mean
 
 from django.http import HttpResponse
 from datetime import datetime
@@ -58,9 +59,16 @@ def add_event_view(request):
 def my_statistics_view(request):
     if request.method=='GET':
     #deal with stats here
+        profile = Profile.objects.get(user=request.user)
+        calendars = Calendar.objects.filter(attendee=profile)
+        months = [c.start_time.month for c in calendars]
         context = {
-            'mean': "sample",
-            'length': "sample",
+            'all_total': len(calendars),
+            'build_total': len(calendars.filter(volunteer_type='build')),
+            'food_total': len(calendars.filter(volunteer_type='food')),
+            'clean_total': len(calendars.filter(volunteer_type='clean')),
+            'months_mean': mean(months).__round__(),
+            'months_mode': mode(months),
         }
         return render(request, 'calendars/statistics.html', context)
     return redirect('home-view')
