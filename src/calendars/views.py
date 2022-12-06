@@ -62,13 +62,18 @@ def my_statistics_view(request):
         profile = Profile.objects.get(user=request.user)
         calendars = Calendar.objects.filter(attendee=profile)
         months = [c.start_time.month for c in calendars]
+        month_mean = 'NA'
+        month_mode = 'NA'
+        if len(months) != 0:
+            month_mean = mean(months).__round__()
+            month_mode = mode(months)
         context = {
             'all_total': len(calendars),
             'build_total': len(calendars.filter(volunteer_type='build')),
             'food_total': len(calendars.filter(volunteer_type='food')),
             'clean_total': len(calendars.filter(volunteer_type='clean')),
-            'months_mean': mean(months).__round__(),
-            'months_mode': mode(months),
+            'months_mean': month_mean,
+            'months_mode': month_mode,
         }
         return render(request, 'calendars/statistics.html', context)
     return redirect('home-view')
