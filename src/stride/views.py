@@ -11,7 +11,7 @@ def home_view(request):
     context = {
         'hello' : statement,    
         'user': user,
-        'statement': "A stride for a better social environment by donating our time now. ",
+        'statement': "A stride for a better social environment by donating our time now!",
     }
     return render(request, 'main/home.html', context)
     # return HttpResponse('Hello world')
