@@ -72,6 +72,7 @@ def my_statistics_view(request):
             'build_total': len(calendars.filter(volunteer_type='build')),
             'food_total': len(calendars.filter(volunteer_type='food')),
             'clean_total': len(calendars.filter(volunteer_type='clean')),
+            'friends_total': profile.get_friends_no(),
             'months_mean': month_mean,
             'months_mode': month_mode,
         }
