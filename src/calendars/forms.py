@@ -6,4 +6,5 @@ from .models import Calendar
 class CalendarModelForm(forms.ModelForm):
     class Meta:
         model = Calendar
-        fields = ('volunteer_type', 'start_time', 'end_time', 'location')
+        fields = ('volunteer_type', 'start_time', 'end_time', 'location') 
+        #records type of volunteer work, start and end time of service, and location of service
