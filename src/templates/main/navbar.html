@@ -32,7 +32,7 @@
             {% if request.user.is_authenticated %}
             <div class="item">
                 <div class="ui floating dropdown icon button teal"> Friend Lists
-                    <em class="dropdown icon"></em>
+                    <i class="dropdown icon"></i>
                     <div class="menu">
                         <a href="{{path_to_all_friends}}" class="{% if request.path == path_to_all_friends %}active{% endif %} item">
                             All Friends
@@ -49,8 +49,13 @@
             <div class="item">
                 <form action="{{path_search}}" method="GET">
                     <div class="ui action left icon input">
+<<<<<<< HEAD
                         <input class="prompt" type="text" name='q' placeholder="name of a user...">
                         <em class="search icon"></em>
+=======
+                        <input class="prompt" type="text" name='q' placeholder="username of a user...">
+                        <i class="search icon"></i>
+>>>>>>> parent of ac9545e (updated <i> tags)
                         <button type='submit' class="ui button">Search</button>
                     </div>
                 </form>
