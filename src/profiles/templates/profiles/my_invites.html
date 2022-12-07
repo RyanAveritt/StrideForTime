@@ -32,7 +32,7 @@ my invites
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
                             <button type="submit" class="ui positive basic button w-big mb-5">
-                                <i class="check icon"></i>
+                                <em class="check icon"></em>
                                 Accept invite
                             </button>
                         </form>
@@ -40,7 +40,7 @@ my invites
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
                             <button type="submit" class="ui negative basic button w-big mb-5">
-                                <i class="close icon"></i>
+                                <em class="close icon"></em>
                                 Reject invite
                             </button>
                         </form>
