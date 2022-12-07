@@ -25,7 +25,7 @@ class Calendar(models.Model):
         return f"{self.attendee.user.username}_{self.volunteer_type}_{self.start_time.strftime('%m-%d-%Y')}-{self.end_time.strftime('%m-%d-%Y')}"
 
     def listCalendar(self):
-        return f"{self.volunteer_type}_{self.location}_{duration(self,)}"
+        return f"{self.volunteer_type}_{self.location}_{self.duration()}"
 
     def duration(self, interval = "default"):
       duration = self.end_time - self.start_time # For build-in functions
